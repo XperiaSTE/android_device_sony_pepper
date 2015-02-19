@@ -71,7 +71,7 @@ PRODUCT_AAPT_CONFIG := mdpi hdpi
 
 
 # Android kind of memory
-PRODUCT_PROPERTY_OVERRIDES += ro.build.characteristics=nosdcard
+PRODUCT_CHARACTERISTICS := nosdcard
 
 
 # PC Companion kind of memory
