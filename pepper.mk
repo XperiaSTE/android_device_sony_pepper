@@ -28,7 +28,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/config/fstab.st-ericsson:root/fstab.st-ericsson \
         $(LOCAL_PATH)/config/init.st-ericsson.device.rc:root/init.st-ericsson.device.rc \
-        $(LOCAL_PATH)/config/media_profiles.xml:system/etc/media_profiles.xml
+        $(LOCAL_PATH)/config/init.st-ericsson.usb.rc:root/init.st-ericsson.usb.rc
 
 
 # Device specific hardware configuration scripts
@@ -36,7 +36,8 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/config/dash.conf:system/etc/dash.conf \
         $(LOCAL_PATH)/prebuilt/hw_config.sh:system/etc/hw_config.sh \
         $(LOCAL_PATH)/config/cflashlib.cfg:system/etc/cflashlib.cfg \
-        $(LOCAL_PATH)/config/flashled_param_config.cfg:system/etc/flashled_param_config.cfg
+        $(LOCAL_PATH)/config/flashled_param_config.cfg:system/etc/flashled_param_config.cfg \
+        $(LOCAL_PATH)/config/media_profiles.xml:system/etc/media_profiles.xml
 
 
 # Device specific bootlogo and charging animation
@@ -48,9 +49,6 @@ $(call inherit-product, $(LOCAL_PATH)/prebuilt/resources-480x854.mk)
 PRODUCT_COPY_FILES += \
 $(LOCAL_PATH)/config/twrp.fstab:recovery/root/etc/twrp.fstab \
 $(LOCAL_PATH)/config/init.recovery.st-ericsson.rc:root/init.recovery.st-ericsson.rc
-
-# Device specific USB configuration script
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/config/init.st-ericsson.usb.rc:root/init.st-ericsson.usb.rc
 
 
 # Device specific keylayouts and touchscreen configurations files
@@ -79,46 +77,21 @@ PRODUCT_CHARACTERISTICS := nosdcard
 PRODUCT_PROPERTY_OVERRIDES += ro.semc.product.user_storage=emmc_only
 
 
-# NFC
-PRODUCT_PROPERTY_OVERRIDES += \
-        ro.nfc.on.default=false \
-        ro.nfc.se.sim.enable=true \
-        ro.nfc.se.smx.enable=false \
-        ro.nfc.icon.enable=true \
-        ro.nfc.vendor.name=nxp
-
-
 # Hardware video codecs configuration
 PRODUCT_PROPERTY_OVERRIDES += \
-        ste.video.dec.mpeg4.in.size=8192 \
-        ste.video.enc.out.buffercnt=5 \
-        ste.video.dec.recycle.delay=1 \
         ste.video.decoder.max.hwmem=0x2600000 \
         ste.video.decoder.max.res=720p \
         ste.video.decoder.h264.max.lev=3.2
 
-# Reduce background apps limit to 16 on low-tier devices
+# Device density
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.sys.fw.bg_apps_limit=16
+	    ro.sf.lcd_density=240
 
-# Set max background services
+# Low-RAM optimizations
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.config.max_starting_bg=8
-  
-# Disable JIT code cache to free up some ram when the device is running
-PRODUCT_PROPERTY_OVERRIDES += \
-  dalvik.vm.jit.codecachesize=0
+		ro.config.low_ram=true \
+		dalvik.vm.jit.codecachesize=0 \
+		ro.config.max_starting_bg=8 \
+		ro.sys.fw.bg_apps_limit=16 \
+		config.disable_atlas=true
 
-# Disable atlas service on low-ram devices
-PRODUCT_PROPERTY_OVERRIDES += \
-  config.disable_atlas=true
-
-# Device specific proprieties
-# References: 
-# - http://source.android.com/devices/tuning.html
-# - http://en.wikipedia.org/wiki/Pixel_density#Calculation_of_monitor_PPI
-# - https://source.android.com/devices/low-ram.html
-PRODUCT_PROPERTY_OVERRIDES += \
-        ro.sf.lcd_density=240 \
-        ro.config.low_ram=true \
-        dalvik.vm.heapminfree=1m
