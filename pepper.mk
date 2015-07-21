@@ -1,6 +1,3 @@
-# Inherit from AOSP
-$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
-
 # Inherit from products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
@@ -86,6 +83,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Device density
 PRODUCT_PROPERTY_OVERRIDES += \
 	    ro.sf.lcd_density=240
+
+# Dalvik
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.heapstartsize=5m \
+    dalvik.vm.heapgrowthlimit=48m \
+    dalvik.vm.heapsize=128m \
+    dalvik.vm.heaptargetutilization=0.75 \
+    dalvik.vm.heapminfree=1m \
+    dalvik.vm.heapmaxfree=2m
 
 # Low-RAM optimizations
 PRODUCT_PROPERTY_OVERRIDES += \
